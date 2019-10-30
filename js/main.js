@@ -170,7 +170,7 @@ function resetBall() {
 //BRICKS LADRLLOS JEJE
 //Todos los objetos los pude haber puesto en otra clase porque que verguero
 const brick = {
-    row: 3,
+    row: 1,
     column: 5,
     width: 55,
     height: 20,
@@ -259,8 +259,30 @@ function gameOver() {
     }
 }
 
-//LEVEL UP A VER SI LO HAGO 
+//LEVEL UP A VER SI LO HAGO
 
+function levelUp() {
+    var isLevelDone = true;
+    for (let r = 0; r < brick.row; r++) {
+        for (let c = 0; c < brick.column; c++) {
+            isLevelDone = isLevelDone && !bricks[r][c].status;
+
+        }
+    }
+
+    if (isLevelDone) {
+        if (LEVEL >= MAX_LEVEL) {
+            GAME_OVER = true;
+            return;
+        }
+
+        brick.row++;
+        createBricks();
+        ball.speed += 0.5;
+        resetBall();
+        LEVEL++;
+    }
+}
 
 //DRAW FUNCTION o dibujar
 function draw() {
@@ -286,6 +308,7 @@ function update() {
     moveBall();
     ballCollision();
     ballBrickCollision();
+    levelUp();
     gameOver();
 
 }
